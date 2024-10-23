@@ -13,7 +13,6 @@ const createThreeSixFive = async (threesixfiveBody) => {
     .split(/\n/)
     .filter((line) => line.trim() !== "");
 
-  console.log("lines", lines);
   //[
   //     'mmw88 TM520 MMH 35,919,00 35,919,012 2 65 332.06',
   //     'mmw89 TM521 MMH 35,919,00 35,919,012 2 65 332.06',
@@ -55,7 +54,6 @@ const createThreeSixFive = async (threesixfiveBody) => {
     };
   });
 
-  console.log("add line infoDataArray", threeSixFiveDataArray);
   return ThreeSixFive.insertMany(threeSixFiveDataArray);
 };
 
@@ -68,10 +66,8 @@ const createThreeSixFive = async (threesixfiveBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryThreeSiveFive = async (filter, options) => {
+const queryThreeSiveFives = async (filter, options) => {
   const threesixfive = await ThreeSixFive.paginate(filter, options);
-
-  console.log("three siave five data is a", threesixfive);
   return threesixfive;
 };
 
@@ -86,12 +82,13 @@ const getThreeSixFiveById = async (id) => {
 
 /**
  * Update threesixfive by id
- * @param {ObjectId} id
+ * @param {ObjectId} threesixfiveId
  * @param {Object} updateBody
  * @returns {Promise<ThreeSixFive>}
  */
-const updateThreeSixFiveById = async (id, updateBody) => {
-  const threesixfive = await getThreeSixFiveById(id);
+const updateThreeSixFiveById = async (threesixfiveId, updateBody) => {
+  const threesixfive = await getThreeSixFiveById(threesixfiveId);
+
   if (!threesixfive) {
     throw new ApiError(httpStatus.NOT_FOUND, "threesixfive not found");
   }
@@ -106,18 +103,18 @@ const updateThreeSixFiveById = async (id, updateBody) => {
  * @param {ObjectId} threeSixFiveId
  * @returns {Promise<ThreeSixFive>}
  */
-const deleteThreeSixFiveById = async (infoId) => {
-  const threesixfive = await getThreeSixFiveById(infoId);
+const deleteThreeSixFiveById = async (threeSixFiveId) => {
+  const threesixfive = await getThreeSixFiveById(threeSixFiveId);
   if (!threesixfive) {
     throw new ApiError(httpStatus.NOT_FOUND, "threesixfive not found");
   }
-  await threesixfive.remove();
+  await ThreeSixFive.deleteOne({ _id: threeSixFiveId });
   return threesixfive;
 };
 
 module.exports = {
   createThreeSixFive,
-  queryThreeSiveFive,
+  queryThreeSiveFives,
   getThreeSixFiveById,
   updateThreeSixFiveById,
   deleteThreeSixFiveById,

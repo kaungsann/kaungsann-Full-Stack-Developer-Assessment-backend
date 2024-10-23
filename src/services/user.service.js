@@ -28,11 +28,6 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
-const getCompanyUsers = async (req) => {
-  const users = await User.find({ company: req.user.company });
-  return users;
-};
-
 /**
  * Get user by id
  * @param {ObjectId} id
@@ -80,7 +75,7 @@ const deleteUserById = async (userId) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
-  await user.remove();
+  await User.deleteOne({ _id: userId });
   return user;
 };
 
@@ -88,7 +83,6 @@ module.exports = {
   createUser,
   queryUsers,
   getUserById,
-  getCompanyUsers,
   getUserByEmail,
   updateUserById,
   deleteUserById,

@@ -13,12 +13,9 @@ const createIbet = async (ibetBody) => {
     .split(/\n/)
     .filter((line) => line.trim() !== "");
 
-  console.log("lines", lines);
-
   // Step 2: Map over each line to create an array of objects based on the schema
   const ibetDataArray = lines.map((line) => {
     const dataArray = line.split(/\s+/); // Split by whitespace (spaces or tabs)
-    console.log("data array is", dataArray);
     return {
       account: dataArray[0], // 'mmw88', 'mmw89', 'mmw90'
       cur: dataArray[1], // 'TM520', 'TM521', 'TM522'
@@ -44,7 +41,6 @@ const createIbet = async (ibetBody) => {
     };
   });
 
-  console.log("add line infoDataArray", ibetDataArray);
   return Ibet.insertMany(ibetDataArray);
 };
 
@@ -57,10 +53,8 @@ const createIbet = async (ibetBody) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryIbet = async (filter, options) => {
+const queryIbets = async (filter, options) => {
   const ibet = await Ibet.paginate(filter, options);
-
-  console.log("three siave five data is a", ibet);
   return ibet;
 };
 
@@ -74,20 +68,19 @@ const getIbeteById = async (id) => {
 };
 
 /**
- * Update ibet by id
- * @param {ObjectId} id
+ * Update ibet by userId
+ * @param {ObjectId} ibetId
  * @param {Object} updateBody
  * @returns {Promise<Ibet>}
  */
-const updateIbetById = async (id, updateBody) => {
-  const ibet = await getIbeteById(id);
+const updateIbetById = async (ibetId, updateBody) => {
+  const ibet = await getIbeteById(ibetId);
   if (!ibet) {
     throw new ApiError(httpStatus.NOT_FOUND, "ibet not found");
   }
-
-  Object.assign(threesixfive, updateBody);
-  await threesixfive.save();
-  return threesixfive;
+  Object.assign(ibet, updateBody);
+  await ibet.save();
+  return ibet;
 };
 
 /**
@@ -95,18 +88,18 @@ const updateIbetById = async (id, updateBody) => {
  * @param {ObjectId} ibetId
  * @returns {Promise<Ibet>}
  */
-const deleteIbetById = async (infoId) => {
-  const ibet = await getIbeteById(infoId);
+const deleteIbetById = async (ibetId) => {
+  const ibet = await getIbeteById(ibetId);
   if (!ibet) {
     throw new ApiError(httpStatus.NOT_FOUND, "ibet not found");
   }
-  await ibet.remove();
+  await Ibet.deleteOne({ _id: ibetId });
   return ibet;
 };
 
 module.exports = {
   createIbet,
-  queryIbet,
+  queryIbets,
   getIbeteById,
   updateIbetById,
   deleteIbetById,

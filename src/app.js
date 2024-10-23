@@ -13,6 +13,8 @@ const { authLimiter } = require("./middlewares/rateLimiter");
 const routes = require("./routes/v1");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
+const session = require("express-session");
+require("./config/passport");
 
 const app = express();
 
@@ -25,8 +27,8 @@ if (config.env !== "test") {
 app.use(helmet());
 
 // Increase the limit for JSON and URL-encoded data
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: "100mb" }));
+app.use(express.urlencoded({ limit: "100mb", extended: true }));
 
 // sanitize request data
 app.use(xss());
@@ -38,6 +40,21 @@ app.use(compression());
 // enable cors
 app.use(cors());
 app.options("*", cors());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60000 * 60,
+    },
+  })
+);
+
+// jwt authentication
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // jwt authentication
 app.use(passport.initialize());

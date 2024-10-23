@@ -20,9 +20,7 @@ const envVarsSchema = Joi.object()
     JWT_RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number()
       .default(10)
       .description("minutes after which reset password token expires"),
-    JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: Joi.number()
-      .default(10)
-      .description("minutes after which verify email token expires"),
+    SESSION_SECRET: Joi.string().required().description("Session secret key"),
   })
   .unknown();
 
@@ -49,6 +47,6 @@ module.exports = {
     refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
     resetPasswordExpirationMinutes:
       envVars.JWT_RESET_PASSWORD_EXPIRATION_MINUTES,
-    verifyEmailExpirationMinutes: envVars.JWT_VERIFY_EMAIL_EXPIRATION_MINUTES,
+    sessionSecret: envVars.SESSION_SECRET,
   },
 };
