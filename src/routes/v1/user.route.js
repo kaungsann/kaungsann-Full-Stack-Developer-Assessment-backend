@@ -10,7 +10,7 @@ const router = express.Router();
 router
   .route("/")
   .post(
-    auth("manageUsers", "createUsers"),
+    auth("manageUsers"),
     validate(userValidation.createUser),
     userController.createUser
   )
@@ -32,10 +32,6 @@ router
     validate(userValidation.updateUser),
     userController.updateUser
   )
-  .delete(
-    auth("manageUsers"),
-    validate(userValidation.deleteUser),
-    userController.deleteUser
-  );
+  .delete(auth("manageUsers"), userController.deleteUser);
 
 module.exports = router;

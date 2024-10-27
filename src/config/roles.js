@@ -8,6 +8,7 @@ const GUEST_PERMISSIONS = [
 const TRADER_PERMISSIONS = [...GUEST_PERMISSIONS, "viewTradeData"];
 const ADMIN_PERMISSIONS = [
   ...TRADER_PERMISSIONS,
+  "manageUsers",
   "ManageUser",
   "ManageChannel",
   "ManageTrade",

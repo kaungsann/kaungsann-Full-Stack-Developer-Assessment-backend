@@ -32,6 +32,7 @@ const updateUser = catchAsync(async (req, res) => {
 });
 
 const deleteUser = catchAsync(async (req, res) => {
+  console.log("mogodb id is aa", req.params);
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
 });
