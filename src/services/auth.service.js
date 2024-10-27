@@ -1,7 +1,8 @@
 const httpStatus = require("http-status");
-const { User } = require("../models");
+const { User, Token } = require("../models");
 const ApiError = require("../utils/ApiError");
 const userService = require("./user.service");
+const { tokenTypes } = require("../config/tokens");
 
 /**
  * Login with username and password
@@ -38,7 +39,9 @@ const logout = async (refreshToken) => {
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Session expired.");
   }
-  await refreshTokenDoc.remove();
+
+  await Token.deleteOne({ _id: refreshTokenDoc.id });
+  return refreshTokenDoc;
 };
 
 module.exports = {

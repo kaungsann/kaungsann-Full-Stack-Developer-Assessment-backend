@@ -11,10 +11,6 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    phone: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
@@ -44,7 +40,7 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: roles,
-      default: "agent",
+      default: "guest",
     },
   },
   {

@@ -1,19 +1,19 @@
 const express = require("express");
 
 const userRoute = require("./user.route");
-const threeSixFiveRoute = require("./threesixfive.route");
-const ibetRoute = require("./ibet.route");
 const authRoute = require("./auth.route");
+const channelRoute = require("./channel.route");
+const forexRoute = require("./forex.route");
 
-const config = require("../../config/config");
+// const config = require("../../config/config");
 
 const router = express.Router();
 
 const defaultRoutes = [
   { path: "/auth", route: authRoute },
   { path: "/users", route: userRoute },
-  { path: "/threesixfives", route: threeSixFiveRoute },
-  { path: "/ibets", route: ibetRoute },
+  { path: "/channels", route: channelRoute },
+  { path: "/forexs", route: forexRoute },
 ];
 
 defaultRoutes.forEach((route) => {

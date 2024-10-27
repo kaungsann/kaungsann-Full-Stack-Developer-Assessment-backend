@@ -1,27 +1,22 @@
-const AGENT_PERMISSIONS = [
-  "getDatas",
+const GUEST_PERMISSIONS = [
+  "getNoti",
   "getUsers",
-  "getIbets",
-  "getThreeSixFives",
+  "getTrades",
+  "getChannels",
+  "getTradeData",
 ];
+const TRADER_PERMISSIONS = [...GUEST_PERMISSIONS, "viewTradeData"];
 const ADMIN_PERMISSIONS = [
-  ...AGENT_PERMISSIONS,
-  "manageUsers",
-  "manageDatas",
-  "createUsers",
-  "manageIbet",
-  "manageThreeSixFive",
-];
-const SUPERADMIN_PERMISSIONS = [
-  ...ADMIN_PERMISSIONS,
-  "manageDatas",
-  "createProjects",
+  ...TRADER_PERMISSIONS,
+  "ManageUser",
+  "ManageChannel",
+  "ManageTrade",
 ];
 
 const allRoles = {
-  agent: AGENT_PERMISSIONS,
+  trader: TRADER_PERMISSIONS,
   admin: ADMIN_PERMISSIONS,
-  superadmin: SUPERADMIN_PERMISSIONS,
+  guest: GUEST_PERMISSIONS,
 };
 
 const roles = Object.keys(allRoles);

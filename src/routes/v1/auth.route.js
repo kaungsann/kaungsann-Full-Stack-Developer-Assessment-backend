@@ -1,8 +1,5 @@
 const express = require("express");
-const passport = require("passport");
 const { authController } = require("../../controllers");
-const ApiError = require("../../utils/ApiError");
-const httpStatus = require("http-status");
 const validate = require("../../middlewares/validate");
 const authValidation = require("../../validations/auth.validations");
 

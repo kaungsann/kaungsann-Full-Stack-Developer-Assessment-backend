@@ -29,6 +29,7 @@ const authStatus = catchAsync(async (req, res) => {
 });
 
 const logout = catchAsync(async (req, res) => {
+  console.log("req body in have token is a", req.body.refreshToken);
   await authService.logout(req.body.refreshToken);
   res.status(httpStatus.NO_CONTENT).send();
 });
