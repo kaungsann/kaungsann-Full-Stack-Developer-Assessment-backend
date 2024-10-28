@@ -13,8 +13,6 @@ const { authLimiter } = require("./middlewares/rateLimiter");
 const routes = require("./routes/v1");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
-const session = require("express-session");
-require("./config/passport");
 
 const app = express();
 
@@ -37,22 +35,19 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
-// enable cors
-app.use(cors());
-app.options("*", cors());
+// CORS configuration
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "secret",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 60000 * 60,
-    },
-  })
-);
+// Enable CORS with the specified options
+app.use(cors(corsOptions));
 
-// jwt authentication
+// Optionally allow pre-flight requests for all routes
+app.options("*", cors(corsOptions));
+
 // app.use(passport.initialize());
 // app.use(passport.session());
 
